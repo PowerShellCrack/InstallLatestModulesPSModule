@@ -98,19 +98,19 @@
             Tags = @('Modules','Updater','PowerShell')
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule/LICENSE'
+            LicenseUri = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule/blob/main/LICENSE'
 
             # A URL to the main website for this project.
             ProjectUri = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule'
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule/CHANGELOG.MD'
+            ReleaseNotes = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule/blob/main/CHANGELOG.MD'
         }
 
     }
 
     # HelpInfo URI of this module
-    HelpInfoURI = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule/README.md'
+    HelpInfoURI = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule/blob/main/README.MD'
 
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''
