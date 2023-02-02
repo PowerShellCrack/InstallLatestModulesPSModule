@@ -29,7 +29,7 @@ Function Install-LatestModule {
 
     .EXAMPLE
         Install-LatestModule -Name Az.Accounts,Az.Resources,Microsoft.Graph.Intune
-        Example will scan for module AzureAD and check its version. it will update if older than PSGallewries latest version
+        Example will scan for module AzureAD and check its version. it will update if older than PSGallery's latest version
 
     .EXAMPLE
         Install-LatestModule -Name AzureAD -Force
@@ -239,3 +239,11 @@ Function Install-LatestModule {
         Stop-Transcript | Out-Null
     }
 }
+
+$exportModuleMemberParams = @{
+    Function = @(
+        'Install-LatestModule'
+    )
+}
+
+Export-ModuleMember @exportModuleMemberParams
