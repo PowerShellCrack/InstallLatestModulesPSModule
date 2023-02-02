@@ -12,7 +12,6 @@ Install-Module InstallLatestModule -Force
 
 ## Cmdlets
 
-### IDMGraph.ps1
 - **Install-LatestModule** : install and update modules to latest version
 
 ## logging
