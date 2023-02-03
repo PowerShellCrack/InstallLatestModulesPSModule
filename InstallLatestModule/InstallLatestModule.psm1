@@ -29,7 +29,7 @@ Function Install-LatestModule {
 
     .EXAMPLE
         Install-LatestModule -Name Az.Accounts,Az.Resources,Microsoft.Graph.Intune
-        Example will scan for module AzureAD and check its version. it will update if older than PSGallery's latest version
+        Example will scan for 3 modules and check its version. it will update if older than PSGallery's latest version
 
     .EXAMPLE
         Install-LatestModule -Name AzureAD -Force
@@ -37,7 +37,7 @@ Function Install-LatestModule {
 
     .EXAMPLE
         Get-Module -ListAvailable | Install-LatestModule
-        Example will scan for module AzureAD and check its version. If the version is already up-to-date; Force will reinstall it
+        Example will scan for all modules on device and install the latest for each if found
     #>
     [CmdletBinding(DefaultParameterSetName = 'NameParameterSet',
         HelpUri = 'https://go.microsoft.com/fwlink/?LinkID=398573',
@@ -240,9 +240,80 @@ Function Install-LatestModule {
     }
 }
 
+Function Compare-LatestModule{
+     <#
+    .SYNOPSIS
+       This function will compare installed modules
+    
+    .DESCRIPTION
+        The function will compare installed modules and output data
+
+    .PARAMETER Name
+        Specify the name of the module
+    
+    .EXAMPLE
+        Compare-LatestModule -Name AzureAD
+        Example will scan for module AzureAD on device in all locations and detemine if each one is at latest
+
+    .EXAMPLE
+        Compare-LatestModule -Name Az.Accounts,Az.Resources,Microsoft.Graph.Intune
+        Example will scan for 3 modules on device in all locations and detemine if each one is at latest
+    #>
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory = $false,ValueFromPipelineByPropertyName = $true,Position=0)]
+        [ValidateNotNullOrEmpty()]
+        [string[]]$Name
+    )
+    Begin{
+        ## Get the name of this function
+        [string]${CmdletName} = $PSCmdlet.MyInvocation.MyCommand.Name
+
+        $ModuleUpdateStatus = @()
+
+        If($Name){
+            Write-Host ("{0} :: Retrieving modules [{1}]..." -f ${CmdletName}, ($name -join ,''))
+            $ExistingModules = Get-Module -Name $Name -ListAvailable
+        }
+        Else{
+            Write-Host ("{0} :: Retrieving online details for all modules, this can take a while..." -f ${CmdletName})
+            $ExistingModules = Get-Module -ListAvailable -All
+        }
+    }
+    Process{
+        #TEST $Name = 'PSFramework'
+        #TEST $Module = $ExistingModules[0]
+        #TEST $Module = $ExistingModules[1]
+        #TEST $Module = $ExistingModules[-1]
+        Foreach($Module in $ExistingModules)
+        {
+            Write-Verbose ("{0} :: Checking status for installed module [{1}]: ..." -f ${CmdletName},$Module.Name)
+            $ModuleDetails = '' | Select ModuleName,Location,Count,CurrentVersion,InstalledVersions,LatestRelease,UpToDate
+            $AllModules = @()
+            $AllModules = $ExistingModules | Where Name -eq $Name
+            $LatestModule = Find-Module -Name $Module.Name
+            If($Module.version -eq $LatestModule.Version){$Updated = $true}Else{$Updated = $false}
+
+            $ModuleDetails.ModuleName = $Module.Name
+            $ModuleDetails.Location = $Module.Path
+            $ModuleDetails.Count = $AllModules.Count
+            $ModuleDetails.CurrentVersion = $Module.Version
+            $ModuleDetails.InstalledVersions = $AllModules.Version
+            $ModuleDetails.LatestRelease = $LatestModule.Version
+            $ModuleDetails.UpToDate = $Updated
+            $ModuleUpdateStatus += $ModuleDetails
+        }
+    }
+    End{
+        Write-Host ("{0} :: Status for {1} modules retrieved" -f ${CmdletName},$ModuleUpdateStatus.count)
+        Return $ModuleUpdateStatus
+    }
+}
+
 $exportModuleMemberParams = @{
     Function = @(
         'Install-LatestModule'
+        'Compare-LatestModule'
     )
 }
 
