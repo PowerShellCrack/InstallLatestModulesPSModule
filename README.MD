@@ -13,6 +13,7 @@ Install-Module InstallLatestModule -Force
 ## Cmdlets
 
 - **Install-LatestModule** : install and update modules to latest version
+- **Compare-LatestModule** : compares all installed modules to latest version
 
 ## logging
 

@@ -48,6 +48,7 @@ Function Install-LatestModule {
             Position = 0,
             ParameterSetName = 'NameParameterSet')]
         [ValidateNotNullOrEmpty()]
+        [Alias("ModuleName")]
         [string[]]
         $Name,
 
@@ -95,21 +96,6 @@ Function Install-LatestModule {
         $RefreshNeeded = $false
     }
     Process{
-        Try{
-            $psrepos = Get-PSRepository -ErrorAction Stop
-
-            foreach($repo in $psrepos){
-                $RepoName = $repo.Name
-                If($repo.InstallationPolicy -eq 'Untrusted'){
-                    Set-PSRepository -Name $RepoName -InstallationPolicy Trusted
-                }
-
-            }
-        }
-        Catch{
-            $_.exception.message
-            break
-        }
 
         If($All){$name = $InstalledModules.name | Select -Unique}
 
