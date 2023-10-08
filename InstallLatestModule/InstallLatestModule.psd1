@@ -9,10 +9,10 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-# RootModule = ''
+#RootModule = 'InstallLatestModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.3'
+ModuleVersion = '1.0.5'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@ Description = 'A module to update powershell modules'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @('Install-LatestModule','Compare-LatestModule')
+FunctionsToExport = @('Install-LatestModule','Get-LatestModule')
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
@@ -78,7 +78,7 @@ CmdletsToExport = @()
 VariablesToExport = '*'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = @()
+AliasesToExport = @('Compare-LatestModule')
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
@@ -98,7 +98,7 @@ PrivateData = @{
         Tags = @('Modules','Updater','PowerShell')
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule/blob/main/LICENSE'
+        LicenseUri = 'https://raw.githubusercontent.com/PowerShellCrack/InstallLatestModulesPSModule/main/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/PowerShellCrack/InstallLatestModulesPSModule'
